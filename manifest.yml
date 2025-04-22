@@ -1,0 +1,32 @@
+modules:
+  jira:globalPage:
+    - key: careermapjira-page
+      resource: main
+      resolver:
+        function: resolver
+      title: CareerMapJira
+  function:
+    - key: resolver
+      handler: index.handler
+resources:
+  - key: main
+    path: static/hello-world/public
+    tunnel:
+      port: 3000
+  - key: add-goal-modal
+    path: static/add-goal-modal/public
+    tunnel:
+      port: 3001
+permissions:
+  scopes:
+    - read:jira-user
+    - read:jira-work
+    - storage:app
+  external:
+    fetch:
+      backend:
+        - "*.atlassian.net"
+app:
+  runtime:
+    name: nodejs22.x
+  id: ari:cloud:ecosystem::app/c3385cec-fdcc-464f-900f-294b5e8d27d3
