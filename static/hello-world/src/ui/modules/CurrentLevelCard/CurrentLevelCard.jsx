@@ -33,7 +33,7 @@ const CurrentLevelCard = () => {
   return (
     <Card title="Current Level">
       <div className="flex items-center justify-between mb-1">
-        <div className="text-blue-600 text-xl">{level}</div>
+        <div className="text-blue-600 text-sm">{level}</div>
       </div>
       {/* <XPProgressBar currentXP={currentXP} nextXP={nextXP} /> */}
       {/* <div className="text-sm text-gray-600 mt-1">

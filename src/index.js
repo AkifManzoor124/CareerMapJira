@@ -1,13 +1,12 @@
 import Resolver from '@forge/resolver';
-import { generateSkillMap } from './api/skillService';
-import { getUserGoals, updateGoalProgress } from './api/goalService';
+import { getUserGoals, saveUserGoals, updateGoal, addUserGoal, deleteUserGoal } from './api/goalService';
 import { getFeedbackNotes, saveFeedbackNote } from './api/feedbackService';
 import { getAchievements, addAchievement } from './api/achievementService';
 import { calculateXP, saveUserXP, getUserXP } from './api/xpService';
 import { getCurrentLevel, getNextLevel } from './api/promotionService';
 import { getUserJiraStats } from './api/jiraClient';
 import { getOrCreateUserProfile } from './api/userService';
-import { getFocusAreas, setFocusAreas, updateFocusProgress } from './api/focusService';
+import { getMetrics, setMetrics, addMetric, deleteMetric, updateMetric} from './api/metricService';
 
 const resolver = new Resolver();
 
@@ -24,16 +23,6 @@ resolver.define('get-user-data', async ({ context }) => {
     console.error('Error fetching user data:', error);
     return { error: 'User data unavailable' };
   }
-});
-
-// Goals
-resolver.define('get-user-goals', async ({ context }) => {
-  return await getUserGoals(context.accountId);
-});
-
-resolver.define('update-goal-progress', async ({ context, payload }) => {
-  const { goalId, progress } = payload;
-  return await updateGoalProgress(context.accountId, goalId, progress);
 });
 
 // Feedback Notes
@@ -81,20 +70,54 @@ resolver.define('get-user-jira-stats', async ({ context }) => {
   }
 });
 
-// Focus Areas
-resolver.define('get-focus-areas', async ({ context }) => {
-  return await getFocusAreas(context.accountId);
+// Goals Area 
+resolver.define('get-user-goals', async ({ context }) => {
+  return await getUserGoals(context.accountId);
 });
 
-resolver.define('set-focus-areas', async ({ context, payload }) => {
-  return await setFocusAreas(context.accountId, payload.areas);
+resolver.define('add-user-goal', async ({ context, payload }) => {
+  console.log('Adding user goal:', payload);
+  return await addUserGoal(context.accountId, payload);
 });
 
-resolver.define('update-focus-progress', async ({ context }) => {
-  return await updateFocusProgress(context.accountId);
+resolver.define('delete-user-goal', async ({ context, payload }) => {
+  console.log('Deleting user goal: delete-user-goal', payload);
+  return await deleteUserGoal(context.accountId, payload.id);
 });
 
+resolver.define('update-goal-progress', async ({ context, payload }) => {
+  const { goalId, progress } = payload;
+  return await updateGoalProgress(context.accountId, goalId, progress);
+});
 
+resolver.define('update-user-goal', async ({ context, payload }) => {
+  console.log('Updating user goal:', payload);
+  return await updateGoal(context.accountId, payload);
+});
+
+// Metric Areas
+resolver.define('get-metrics', async ({ context }) => {
+  return await getMetrics(context.accountId);
+});
+
+resolver.define('set-metrics', async ({ context, payload }) => {
+  return await setMetrics(context.accountId, payload);
+});
+
+resolver.define('add-metric', async ({ context, payload }) => {
+  console.log('index.js Adding metric:', payload);
+  return await addMetric(context.accountId, payload);
+});
+
+resolver.define('delete-metric', async ({ context, payload }) => {
+  console.log('Deleting metric:', payload);
+  return await deleteMetric(context.accountId, payload.id);
+});
+
+resolver.define('update-metric', async ({ context, payload }) => {
+  console.log('Updating metric:', context);
+  return await updateMetric(context.accountId, payload);
+});
 
 
 export const handler = resolver.getDefinitions();

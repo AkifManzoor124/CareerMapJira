@@ -8,7 +8,7 @@ const ProgressBar = ({ progress }) => {
       <div
         className="bg-blue-500 h-2 rounded-full transition-all duration-500 min-w-[1%]"
         // style={{ width: `${safeProgress}%` }}
-        style={{ width: '50%' }}
+        style={{ width: progress ? `${safeProgress}%` : '0%' }}
         role="progressbar"
         aria-valuenow={safeProgress}
         aria-valuemin={0}

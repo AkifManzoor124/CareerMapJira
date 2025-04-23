@@ -1,16 +1,25 @@
 import React from 'react';
-import { Modal } from '@forge/bridge';
+import { Modal, invoke } from '@forge/bridge';
 import SkillGaps from '../../components/SkillGaps/SkillGaps';
 import Card from '../../components/Card/Card';
 
-const SkillGapsCard = ({ gaps }) => {
+const SkillGapsCard = ({ metrics, setMetrics }) => {
   const modal = new Modal({
     resource: 'add-goal-modal',
-    onClose: (payload) => {
+    onClose: async (payload) => {
       console.log('onClose called with', payload);
+      // if payload undefined or empty object, do nothing
+      if (!payload || Object.keys(payload).length === 0) return;
+      
+      //add metric
+
+      console.log('adding the metric from SkillGapsCard');
+      const newMetric = await invoke('add-metric', payload);
+      setMetrics((prev) => [...prev, payload]);
     },
     size: 'medium',
     context: {
+      modalType: 'add-metric',
       modalTitle: 'Add Progress Metric',
     },
   });
@@ -31,17 +40,17 @@ const SkillGapsCard = ({ gaps }) => {
       </div>
       <div>
         {/* If there is no skills gap, simply display "No Progress Metrics" */}
-        {gaps.length === 0 && (
-          <div className="text-center text-gray-500">
-            No Progress Metrics yet.
+        {metrics.length === 0 && (
+          <div className="text-sm text-gray-400">
+            No progress metrics yet. <br />
           </div>
         )}
         {/* Render the SkillGaps component */}
         {/* Check if gaps is an array and has elements */}
-        {Array.isArray(gaps) && gaps.length > 0 && (
+        {Array.isArray(metrics) && metrics.length > 0 && (
           <div className="flex flex-col gap-4 mb-6">
-            {gaps.map((gap, idx) => (
-              <SkillGaps key={idx} {...gap} />
+            {metrics.map((metric, idx) => (
+              <SkillGaps key={idx} {...metric} setMetrics={setMetrics} />
             ))}
           </div>
         )}

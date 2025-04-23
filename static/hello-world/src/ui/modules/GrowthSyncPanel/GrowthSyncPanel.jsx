@@ -2,28 +2,26 @@
 import React, { useState } from 'react';
 import Card from '../../components/Card/Card';
 import GoalCard from '../../components/Card/GoalCard/GoalCard';
-import { Modal } from '@forge/bridge';
+import { Modal, invoke } from '@forge/bridge';
 
-
-export const GrowthSyncPanel = ({initialGoals, initialSummary}) => {
-  const [goals, setGoals] = useState(initialGoals);
+export const GrowthSyncPanel = ({userGoals, setUserGoals, initialSummary}) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const modal = new Modal({
     resource: 'add-goal-modal',
-    onClose: (payload) => {
-      console.log('onClose called with', payload);
+    onClose: async (payload) => {
+        console.log('onClose called with', payload);
+        if (!payload || Object.keys(payload).length === 0) return;
+
+        const newGoal = await invoke('add-user-goal', payload);
+        setUserGoals((prev) => [...prev, payload]);
     },
     size: 'medium',
     context: {
+        modalType: 'add-goal',
         modalTitle: 'Add New Goal',
     },
   });
-
-  const handleAddGoal = (goal) => {
-    setGoals([...goals, goal]);
-    setModalOpen(false);
-  };
 
   return (
     <Card>
@@ -42,8 +40,8 @@ export const GrowthSyncPanel = ({initialGoals, initialSummary}) => {
 
         <div className='flex flex-row gap-4'>
             <div className="w-full flex flex-col gap-4 mb-6">
-                {goals.map((goal, idx) => (
-                <GoalCard key={idx} {...goal} />
+                {userGoals.map((goal, idx) => (
+                <GoalCard key={idx} {...goal} setUserGoals={setUserGoals}/>
                 ))}
             </div>
 
