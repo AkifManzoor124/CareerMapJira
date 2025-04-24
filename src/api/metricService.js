@@ -1,7 +1,12 @@
 import { storage } from '@forge/api';
-import { getCompletedTickets } from './jiraClient';
 
 const STORAGE_KEY = 'user-metrics';
+
+const normalizeMetric = (metric) => ({
+  ...metric,
+  remaining: metric.remaining ?? 0,
+  completed: metric.completed ?? 0,
+});
 
 export const getMetrics = async (accountId) => {
   return await storage.get(`${STORAGE_KEY}:${accountId}`) || [];
@@ -15,11 +20,11 @@ export const setMetrics = async (accountId, metrics) => {
 export const addMetric = async (accountId, metric) => {
   console.log('metricService Adding metric:', metric);
   const current = await getMetrics(accountId);
-  const newMetric = {
+  const newMetric = normalizeMetric({
     ...metric,
     isComplete: false,
     id: Date.now().toString(),
-  };
+  });
   return await setMetrics(accountId, [...current, newMetric]);
 };
 
@@ -33,21 +38,12 @@ export const deleteMetric = async (accountId, id) => {
 export const updateMetric = async (accountId, update) => {
   const current = await getMetrics(accountId);
 
-  console.log("current", current);
-  console.log("updating metric with updates", update);
-
   const updated = current.map(metric =>
-    metric.id === update.id ? { ...metric, ...update } : metric
+    metric.id === update.id
+      ? normalizeMetric({ ...metric, ...update })
+      : metric
   );
 
-  console.log(current);
-  console.log("updating metric with updates", update.id);
-  console.log("metrics after", current);
-
   await setMetrics(accountId, updated);
-
-  const updatedNow = await getMetrics(accountId);
-
-  console.log("updatedNow", updatedNow);
   return updated.find(m => m.id === update.id);
 };
