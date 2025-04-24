@@ -1,6 +1,6 @@
 // components/TicketStatsCard.jsx
 import React from 'react';
-import Card from '../../Card/Card';
+import Card from '../Card';
 
 export const TicketStatsCard = ({ title, value, subtext }) => (
   <Card>

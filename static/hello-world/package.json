@@ -27,8 +27,6 @@
     "tailwindcss": "^4.1.3"
   },
   "scripts": {
-    "dev": "vite",
-    "local-build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "react-scripts start",

@@ -1,6 +1,6 @@
 // components/TicketVelocityCard.jsx
 import React from 'react';
-import Card from '../../Card/Card';
+import Card from '../Card';
 
 export const TicketVelocityCard = ({ ticketVelocity }) => (
   <Card>

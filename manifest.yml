@@ -1,22 +1,22 @@
 modules:
   jira:globalPage:
-    - key: careermapjira-page
+    - key: careeros-page
       resource: main
       resolver:
         function: resolver
-      title: CareerMapJira
+      title: CareerOS
   function:
     - key: resolver
       handler: index.handler
 resources:
   - key: main
-    path: static/hello-world/public
-    tunnel:
-      port: 3000
+    path: static/hello-world/build
+    # tunnel:
+    #   port: 3000
   - key: add-goal-modal
-    path: static/add-goal-modal/public
-    tunnel:
-      port: 3001
+    path: static/add-goal-modal/build
+    # tunnel:
+    #   port: 3001
 permissions:
   scopes:
     - read:jira-user
