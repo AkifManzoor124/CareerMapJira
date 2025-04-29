@@ -11,12 +11,12 @@ modules:
 resources:
   - key: main
     path: static/hello-world/build
-    # tunnel:
-    #   port: 3000
+    tunnel:
+      port: 3000
   - key: add-goal-modal
     path: static/add-goal-modal/build
-    # tunnel:
-    #   port: 3001
+    tunnel:
+      port: 3001
 permissions:
   scopes:
     - read:jira-user
