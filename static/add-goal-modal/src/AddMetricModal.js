@@ -17,8 +17,8 @@ export const AddMetricModal = () => {
     const payload = {
         id,
         name,
-        completed,
-        remaining,
+        remaining: remaining ?? 0,
+        completed: completed ?? 0,
     };
     console.log('AddMetricModal submitted with', payload);
     view.close(payload);
@@ -36,8 +36,6 @@ export const AddMetricModal = () => {
       id: context.extension.modal.id
     };
 
-    console.log('Deleting metric with ID:', payload.id);
-    await invoke('delete-metric', payload);
     view.close({ ...payload, delete: true });
   }
 

@@ -15,10 +15,16 @@ const SkillGaps = ({id, name, completed, remaining, setMetrics}) => {
       if (payload.delete) {
           console.log('deleting the metric');
           console.log("payload", payload);
-          setMetrics((prev) => prev.filter((goal) => goal.id !== payload.id));
+          setMetrics((prev) => {
+            // filter out the metric that was deleted
+            const updated = prev.filter((metric) => metric.id !== payload.id);
+            return updated;
+          });
+          deletedMetric = await invoke('delete-metric', payload);
           return;
       }
 
+      console.log("SkillGaps.js onClose payload", payload);
       const updatedMetric = await invoke('update-metric', payload);
 
       //find the metric being editted, and update it with the new payload
@@ -27,7 +33,7 @@ const SkillGaps = ({id, name, completed, remaining, setMetrics}) => {
         metric.id === payload.id ? {...metric, ...payload} : metric);
         return updated;
       });
-      
+  
     },
     size: 'medium',
     context: {

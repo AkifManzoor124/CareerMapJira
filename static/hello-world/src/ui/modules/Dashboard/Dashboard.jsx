@@ -8,6 +8,7 @@ import SkillGapsCard from '../SkillGapsCard/SkillGapsCard';
 import PromotionTracker from '../PromotionTracker/PromotionTracker';
 import StatsCardGrid from '../StatsCardGrid/StatsCardGrid';
 import GrowthSyncPanel from '../GrowthSyncPanel/GrowthSyncPanel';
+import FloatingMenuButton from '../../components/FloatingMenuButton/FloatingMenuButton';
 
 const initialSummary = `Hey Akif, I wanted to say you're doing a solid job with your current sprint work — especially how you broke down the payment service tasks. I noticed you've been steadily mentoring Umar on the backend side, which is awesome to see and aligns really well with your leadership goal.`
 
@@ -48,43 +49,39 @@ const Dashboard = () => {
   const [achievements, setAchievements] = useState([]);
   const [getUserXP, setUserXP] = useState();
   const [getJiraStats, setJiraStats] = useState({});
-  const [metrics, setMetrics] = useState(
-    [
-    // { id: 1, name: 'DevOps', completed: 3, remaining: 5 },
-    // { id: 2, name: 'Frontend', completed: 3, remaining: 9 },
-    // { id: 3, name: 'Database', completed: 2, remaining: 5 },
-    // { id: 4, name: 'UI/UX', completed: 7, remaining: 8 },
-    ]
-  );
+  const [metrics, setMetrics] = useState([]);
 
+  // Fetch once when component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userData = await invoke('get-user-data');
-        const userGoals = await invoke('get-user-goals');
-        console.log('fetching userGoals', userGoals);
-        const feedbackNotes = await invoke('get-feedback-notes');
-        const getAchievements = await invoke('get-achievements');
-        const getUserXP = await invoke('get-user-xp');
-        const getJiraStats = await invoke('get-user-jira-stats');
-        const getMetrics = await invoke('get-metrics');
-        
-        console.log("getMetrics", getMetrics);
-        console.log("getting metrics state",metrics);
+        const [
+          userData,
+          userGoals,
+          feedbackNotes,
+          achievements,
+          userXP,
+          jiraStats,
+          fetchedMetrics
+        ] = await Promise.all([
+          invoke('get-user-data'),
+          invoke('get-user-goals'),
+          invoke('get-feedback-notes'),
+          invoke('get-achievements'),
+          invoke('get-user-xp'),
+          invoke('get-user-jira-stats'),
+          invoke('get-metrics')
+        ]);
 
-        // setUserData(userData);
-        setMetrics((prev) => [...prev, ...getMetrics]);
-        setAchievements(getAchievements);
+        setMetrics(fetchedMetrics);
+        setAchievements(achievements);
         setUserGoals([...initialGoals, ...userGoals]);
         setFeedbackNotes(feedbackNotes);
-        setUserXP(getUserXP);
-        setJiraStats(getJiraStats);
-        
-        console.log("getMetrics", getMetrics);
-        console.log("getting metrics state again",metrics);
+        setUserXP(userXP);
+        setJiraStats(jiraStats);
 
       } catch (error) {
-        console.error('Error fetching resolver data:', error);
+        console.error('Error fetching dashboard data:', error);
       } finally {
         setLoading(false);
       }
@@ -92,6 +89,12 @@ const Dashboard = () => {
 
     fetchData();
   }, []);
+
+  // Log updated metrics
+  useEffect(() => {
+    console.log('Metrics updated:', metrics);
+  }, [metrics]);
+
 
   if (loading) return <div className="p-4 text-gray-600">Loading CareerMap...</div>;
 
@@ -102,6 +105,7 @@ const Dashboard = () => {
     <div className="w-full flex flex-col p-6">
       
       <StatsCardGrid stats={getJiraStats}/>
+      <FloatingMenuButton />
 
       <div className="flex flex-row gap-4">
         <div className="w-14/24 flex flex-col gap-4">

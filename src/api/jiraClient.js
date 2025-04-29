@@ -91,8 +91,6 @@ export const getUserJiraStats = async () => {
   const completed = await getCompletedTickets();
   const sprint = await getTicketsInCurrentSprint();
 
-  console.log(completed);
-
   return {
     ticketsCompleted: completed.length,
     avgStoryPoints: getAverageStoryPoints(completed),

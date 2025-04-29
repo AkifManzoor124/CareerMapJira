@@ -115,7 +115,7 @@ resolver.define('delete-metric', async ({ context, payload }) => {
 });
 
 resolver.define('update-metric', async ({ context, payload }) => {
-  console.log('Updating metric:', context);
+  console.log('index.js Updating metric:', payload);
   return await updateMetric(context.accountId, payload);
 });
 

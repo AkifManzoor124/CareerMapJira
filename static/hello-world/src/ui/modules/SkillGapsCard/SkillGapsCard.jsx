@@ -12,8 +12,8 @@ const SkillGapsCard = ({ metrics, setMetrics }) => {
       if (!payload || Object.keys(payload).length === 0) return;
       
       //add metric
-
-      console.log('adding the metric from SkillGapsCard');
+      payload.id = Date.now().toString();
+      console.log('adding the metric from SkillGapsCard', payload);
       const newMetric = await invoke('add-metric', payload);
       setMetrics((prev) => [...prev, payload]);
     },
