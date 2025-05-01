@@ -13,20 +13,14 @@ export const GoalCard = ({ id, name, description, targetDate, progress, setUserG
   const modal = new Modal({
     resource: 'add-goal-modal',
     onClose: async (payload) => {
-      console.log('GoalCard - onClose called with', payload);
       // if payload undefined, do nothing
       if (!payload || Object.keys(payload).length === 0) return;
       // if delete is true, remove the goal from userGoals
       if (payload.delete) {
-          console.log('deleting the goal');
-          console.log("payload", payload);
           setUserGoals((prev) => prev.filter((goal) => goal.id !== payload.id));
           return;
       }
-      console.log('updating the goal', payload);
-      const updatedMetric = await invoke('update-user-goal', payload);
-
-      console.log("updatedMetric", updatedMetric);  
+      const updatedMetric = await invoke('update-user-goal', payload); 
       //find the metric being editted, and update it with the new payload
       setUserGoals((prev) => {
         const updated = prev.map((metric) => 
@@ -34,7 +28,6 @@ export const GoalCard = ({ id, name, description, targetDate, progress, setUserG
         return updated;
       });
 
-      console.log("after setUserGoals", updatedMetric);
 
     },
     size: 'medium',

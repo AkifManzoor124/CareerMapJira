@@ -23,12 +23,10 @@ export const addMetric = async (accountId, metric) => {
     ...metric,
     id: metric.id ?? Date.now().toString(),
   });
-  console.log('metricService Adding metric:', newMetric);
   return await setMetrics(accountId, [...current, newMetric]);
 };
 
 export const deleteMetric = async (accountId, id) => {
-  console.log('Deleting metric:', id);
   const current = await getMetrics(accountId);
   const updated = current.filter(metric => metric.id !== id);
   return await setMetrics(accountId, updated);
@@ -37,22 +35,19 @@ export const deleteMetric = async (accountId, id) => {
 export const updateMetric = async (accountId, updatedMetric) => {
   const currentMetrics = await getMetrics(accountId);
 
-  console.log('current metric:', currentMetrics.id);
-  console.log('update metric:', updatedMetric.id);
-
-  const updated = currentMetrics.map(currentMetric =>
-    currentMetric.id === updatedMetric.id
-      ? normalizeMetric({ ...currentMetric, ...updatedMetric })
-      : -1
+  const updated = currentMetrics.map((metric) =>
+    String(metric.id) === String(updatedMetric.id)
+      ? normalizeMetric({ ...metric, ...updatedMetric })
+      : metric
   );
 
-  if(updated.includes(-1)) {
-    console.log('Metric not found for update:', updatedMetric.id);
+  const found = updated.some((metric) => String(metric.id) === String(updatedMetric.id));
+
+  if (!found) {
+    console.error('Metric not found for update:', updatedMetric.id);
     return null;
   }
-  
-  console.log('updated metric:', updated);
 
   await setMetrics(accountId, updated);
-  return updated.find(m => m.id === updatedMetric.id);
+  return updated.find((m) => String(m.id) === String(updatedMetric.id));
 };

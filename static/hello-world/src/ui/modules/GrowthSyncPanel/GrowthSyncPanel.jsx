@@ -10,7 +10,6 @@ export const GrowthSyncPanel = ({userGoals, setUserGoals, initialSummary}) => {
   const modal = new Modal({
     resource: 'add-goal-modal',
     onClose: async (payload) => {
-        console.log('onClose called with', payload);
         if (!payload || Object.keys(payload).length === 0) return;
 
         const newGoal = await invoke('add-user-goal', payload);

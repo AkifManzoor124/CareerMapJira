@@ -22,7 +22,6 @@ export const AddGoalModalApp = () => {
       targetDate,
       progress,
     };
-    console.log('AddGoalModalApp submitted with', payload);
     view.close(payload);
   };
 
@@ -32,13 +31,11 @@ export const AddGoalModalApp = () => {
 
   const handleDelete = async (e) => {
     // e.preventDefault();
-    console.log('Delete button clicked');
     
     const payload = {
       id: context.extension.modal.id
     };
-
-    console.log('Deleting goal with ID:', payload.id);
+    
     await invoke('delete-user-goal', payload);
     view.close({ ...payload, delete: true });
   }

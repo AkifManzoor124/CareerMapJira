@@ -28,7 +28,6 @@ export const updateGoal = async (accountId, updatedGoal) => {
 };
 
 export const deleteUserGoal = async (accountId, goalId) => {
-  console.log('Deleting user goal:', goalId);
   const goals = await getUserGoals(accountId);
   const updatedGoals = goals.filter(goal => goal.id !== goalId);
   await saveUserGoals(accountId, updatedGoals);

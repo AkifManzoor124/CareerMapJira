@@ -8,8 +8,6 @@ const FloatingMenuButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  console.log("Loaded FloatingMenuButton");
-
   return (
     <div className="fixed bottom-6 left-6 z-50 flex flex-col items-start space-y-3">
       {isOpen && (

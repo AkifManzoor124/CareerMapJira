@@ -61,7 +61,6 @@ resolver.define('get-user-xp', async ({ context }) => {
 // Jira Stats
 resolver.define('get-user-jira-stats', async ({ context }) => {
   try {
-    console.log('Fetching Jira stats...');
     const stats = await getUserJiraStats();
     return stats;
   } catch (error) {
@@ -76,12 +75,10 @@ resolver.define('get-user-goals', async ({ context }) => {
 });
 
 resolver.define('add-user-goal', async ({ context, payload }) => {
-  console.log('Adding user goal:', payload);
   return await addUserGoal(context.accountId, payload);
 });
 
 resolver.define('delete-user-goal', async ({ context, payload }) => {
-  console.log('Deleting user goal: delete-user-goal', payload);
   return await deleteUserGoal(context.accountId, payload.id);
 });
 
@@ -91,7 +88,6 @@ resolver.define('update-goal-progress', async ({ context, payload }) => {
 });
 
 resolver.define('update-user-goal', async ({ context, payload }) => {
-  console.log('Updating user goal:', payload);
   return await updateGoal(context.accountId, payload);
 });
 
@@ -105,17 +101,15 @@ resolver.define('set-metrics', async ({ context, payload }) => {
 });
 
 resolver.define('add-metric', async ({ context, payload }) => {
-  console.log('index.js Adding metric:', payload);
   return await addMetric(context.accountId, payload);
 });
 
 resolver.define('delete-metric', async ({ context, payload }) => {
-  console.log('Deleting metric:', payload);
   return await deleteMetric(context.accountId, payload.id);
 });
 
 resolver.define('update-metric', async ({ context, payload }) => {
-  console.log('index.js Updating metric:', payload);
+  console.log('update-metric', payload);
   return await updateMetric(context.accountId, payload);
 });
 

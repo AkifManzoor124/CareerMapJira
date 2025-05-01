@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { invoke } from '@forge/bridge';
 import Card from '../../components/Card/Card';
-
 import AchievementsList from '../AchievementsList/AchievementsList';
-import CurrentLevelCard from '../CurrentLevelCard/CurrentLevelCard';
 import SkillGapsCard from '../SkillGapsCard/SkillGapsCard';
-import PromotionTracker from '../PromotionTracker/PromotionTracker';
 import StatsCardGrid from '../StatsCardGrid/StatsCardGrid';
 import GrowthSyncPanel from '../GrowthSyncPanel/GrowthSyncPanel';
 import FloatingMenuButton from '../../components/FloatingMenuButton/FloatingMenuButton';
+import FloatingStatusBadge from '../../components/FloatingStatusBadge/FloatingStatusBadge';
 
 const initialSummary = `Hey Akif, I wanted to say you're doing a solid job with your current sprint work — especially how you broke down the payment service tasks. I noticed you've been steadily mentoring Umar on the backend side, which is awesome to see and aligns really well with your leadership goal.`
 
@@ -90,10 +88,10 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  // Log updated metrics
-  useEffect(() => {
-    console.log('Metrics updated:', metrics);
-  }, [metrics]);
+  // // Log updated metrics
+  // useEffect(() => {
+  //   console.log('Metrics updated:', metrics);
+  // }, [metrics]);
 
 
   if (loading) return <div className="p-4 text-gray-600">Loading CareerMap...</div>;
@@ -106,6 +104,7 @@ const Dashboard = () => {
       
       <StatsCardGrid stats={getJiraStats}/>
       <FloatingMenuButton />
+      <FloatingStatusBadge />
 
       <div className="flex flex-row gap-4">
         <div className="w-14/24 flex flex-col gap-4">

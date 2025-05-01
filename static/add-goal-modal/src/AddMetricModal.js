@@ -20,7 +20,6 @@ export const AddMetricModal = () => {
         remaining: remaining ?? 0,
         completed: completed ?? 0,
     };
-    console.log('AddMetricModal submitted with', payload);
     view.close(payload);
   };
 
@@ -30,7 +29,6 @@ export const AddMetricModal = () => {
 
   const handleDelete = async (e) => {
     // e.preventDefault();
-    console.log('Delete button clicked');
     
     const payload = {
       id: context.extension.modal.id

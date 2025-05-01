@@ -7,13 +7,11 @@ const SkillGapsCard = ({ metrics, setMetrics }) => {
   const modal = new Modal({
     resource: 'add-goal-modal',
     onClose: async (payload) => {
-      console.log('onClose called with', payload);
       // if payload undefined or empty object, do nothing
       if (!payload || Object.keys(payload).length === 0) return;
       
       //add metric
       payload.id = Date.now().toString();
-      console.log('adding the metric from SkillGapsCard', payload);
       const newMetric = await invoke('add-metric', payload);
       setMetrics((prev) => [...prev, payload]);
     },
