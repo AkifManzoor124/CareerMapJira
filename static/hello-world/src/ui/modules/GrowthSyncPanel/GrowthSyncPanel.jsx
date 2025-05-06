@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import Card from '../../components/Card/Card';
 import GoalCard from '../../components/Card/GoalCard/GoalCard';
 import { Modal, invoke } from '@forge/bridge';
+import { useOnboarding } from '../OnboardingProvider/OnboardingProvider';
 
 export const GrowthSyncPanel = ({userGoals, setUserGoals, initialSummary}) => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const { pauseOnboarding, completeStepManually } = useOnboarding();
 
   const modal = new Modal({
     resource: 'add-goal-modal',
@@ -14,6 +16,7 @@ export const GrowthSyncPanel = ({userGoals, setUserGoals, initialSummary}) => {
 
         const newGoal = await invoke('add-user-goal', payload);
         setUserGoals((prev) => [...prev, payload]);
+        completeStepManually(0);
     },
     size: 'medium',
     context: {
@@ -30,8 +33,9 @@ export const GrowthSyncPanel = ({userGoals, setUserGoals, initialSummary}) => {
                 <p className="text-sm text-gray-500">Sync up with your manager on your personal and leadership development.</p>
             </div>
             <button
-                onClick={() => modal.open()}
-                className="flex justify-end text-sm px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50"
+                data-tour="add-goal"
+                onClick={() => {modal.open(); pauseOnboarding()}} // Step 0 = goalAdded}
+                className="flex justify-end text-sm px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 cursor-pointer"
             >
                 + Add Goal
             </button>

@@ -7,7 +7,7 @@ const ConnectJiraCTA = ({ onConnect }) => {
       <p className="mb-4 text-gray-600">Authorize CareerMap to access your Jira account and begin mapping your career journey.</p>
       <button
         onClick={onConnect}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition cursor-pointer"
       >
         Connect Jira Account
       </button>

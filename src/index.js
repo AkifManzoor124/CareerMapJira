@@ -6,7 +6,8 @@ import { calculateXP, saveUserXP, getUserXP } from './api/xpService';
 import { getCurrentLevel, getNextLevel } from './api/promotionService';
 import { getUserJiraStats } from './api/jiraClient';
 import { getOrCreateUserProfile } from './api/userService';
-import { getMetrics, setMetrics, addMetric, deleteMetric, updateMetric} from './api/metricService';
+import { getMetrics, setMetrics, addMetric, deleteMetric, updateMetric } from './api/metricService';
+import { getOnboardingState, setOnboardingState, deleteOnboardingState } from './api/OnboardingService';
 
 const resolver = new Resolver();
 
@@ -113,5 +114,21 @@ resolver.define('update-metric', async ({ context, payload }) => {
   return await updateMetric(context.accountId, payload);
 });
 
+resolver.define('get-onboarding-state', async ({ context }) => {
+  console.log('get-onboarding-state', context.accountId);
+  const onboardingState = await getOnboardingState(context.accountId);
+  return onboardingState;
+});
+
+resolver.define('set-onboarding-state', async ({ context, payload }) => {
+  console.log('set-onboarding-state', context.accountId, payload);
+  return await setOnboardingState(context.accountId, payload);
+});
+
+// devtools 
+resolver.define('delete-onboarding-state', async ({ context, payload }) => {
+  console.log('delete-onboarding-state', context.accountId);
+  return await deleteOnboardingState(context.accountId);
+});
 
 export const handler = resolver.getDefinitions();

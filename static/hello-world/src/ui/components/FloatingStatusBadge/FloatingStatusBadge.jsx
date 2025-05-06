@@ -4,17 +4,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWrench, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { router } from '@forge/bridge';
 import backlogImage from '../../../assets/backlog.png';
+import { useOnboarding } from '../../modules/OnboardingProvider/OnboardingProvider';
 
 const FloatingStatusBadge = () => {
-  const [minimized, setMinimized] = useState(false);
+  const { completeStepManually } = useOnboarding();
+  const [minimized, setMinimized] = useState(true);
 
   const openBoard = () => {
     router.open('https://jobtrajectory.atlassian.net/jira/software/projects/CAR/boards/1/backlog');
   };
 
+  const handleButtonClick = () => {
+    setMinimized(!minimized);
+    completeStepManually(4);
+  };
+
   if (minimized) {
     return (
-      <div className="fixed bottom-6 right-6 z-50 cursor-pointer" onClick={() => setMinimized(false)}>
+      <div data-tour="status-badge" className="fixed bottom-6 right-6 z-50 cursor-pointer" onClick={handleButtonClick}>
         <div className='flex flex-row justify-center items-center'>
             <div className="flex justify-center items-center p-3 rounded-full border border-gray-200 shadow-lg bg-white hover:shadow-xl transition">
                 <FontAwesomeIcon icon={faWrench} className="w-5 h-5 text-gray-600 text-sm" />
@@ -37,7 +44,7 @@ const FloatingStatusBadge = () => {
         <div className="w-full">
             <div className='flex justify-between'>
                 <p className="text-gray-600 text-sm font-semibold">We're actively improving CareerOS.</p>
-                <div onClick={() => setMinimized(true)} className="flex justify-center items-center w-5 h-5 rounded-full border border-gray-200 bg-white hover:shadow-xl transition">
+                <div onClick={() => setMinimized(true)} className="flex justify-center items-center w-5 h-5 rounded-full border border-gray-200 bg-white hover:shadow-xl transition cursor-pointer">
                     <FontAwesomeIcon icon={faTimes} className="text-gray-600 text-sm w-1/2" />
                 </div>
             </div>

@@ -4,8 +4,11 @@ import ProgressBar from '../ProgressBar/ProgressBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import Card from '../Card/Card';
+import { useOnboarding } from '../../modules/OnboardingProvider/OnboardingProvider';
 
 const SkillGaps = ({ id, name, completed, remaining, setMetrics }) => {
+  const { pauseOnboarding, completeStepManually } = useOnboarding();
+
   const modal = new Modal({
     resource: 'add-goal-modal',
     onClose: async (payload) => {
@@ -23,6 +26,7 @@ const SkillGaps = ({ id, name, completed, remaining, setMetrics }) => {
       setMetrics((prev) =>
         prev.map((metric) => (metric.id === payload.id ? { ...metric, ...payload } : metric))
       );
+      completeStepManually(2);
     },
     size: 'medium',
     context: {
@@ -44,7 +48,7 @@ const SkillGaps = ({ id, name, completed, remaining, setMetrics }) => {
       {/* Title + Edit */}
       <div className="flex flex-row mr-2">
           <span style={{width: "max-content"}} className="text-sm font-medium text-gray-800">{name}</span>
-          <button className="ml-2" onClick={() => modal.open()}>
+          <button data-tour="edit-metric" className="ml-2 cursor-pointer" onClick={() => {modal.open(); pauseOnboarding();}}>
             <FontAwesomeIcon
               icon={faPenToSquare}
               className="text-gray-500"

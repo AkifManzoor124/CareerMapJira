@@ -28,7 +28,6 @@ export const GoalCard = ({ id, name, description, targetDate, progress, setUserG
         return updated;
       });
 
-
     },
     size: 'medium',
     context: {
@@ -53,7 +52,7 @@ export const GoalCard = ({ id, name, description, targetDate, progress, setUserG
         <div className="w-full flex flex-row">
           <div className='w-2/3 flex flex-row'>
             <h3 className="text-md font-semibold text-left text-gray-800">{name}</h3>
-            <button className="flex justify-center items-center ml-2" onClick={() => modal.open()}>
+            <button className="flex justify-center items-center ml-2 cursor-pointer" onClick={() => modal.open()}>
               <FontAwesomeIcon
                 icon={faPenToSquare}
                 className="text-gray-500"

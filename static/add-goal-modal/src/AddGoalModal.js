@@ -77,7 +77,7 @@ export const AddGoalModalApp = () => {
               <button
                 type="button"
                 onClick={() => handleDelete()}
-                className="text-sm px-4 m-2 py-2 border border-red-600 rounded hover:bg-gray-100"
+                className="text-sm px-4 m-2 py-2 border border-red-600 rounded hover:bg-gray-100 cursor-pointer"
               >
                 <span className="text-red-600">Delete</span>
               </button>
@@ -88,13 +88,13 @@ export const AddGoalModalApp = () => {
             <button
               type="button"
               onClick={handleCancel}
-              className="text-sm px-4 m-2 py-2 border-gray-300 rounded hover:bg-gray-100"
+              className="text-sm px-4 m-2 py-2 border-gray-300 rounded hover:bg-gray-100 cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="text-sm px-4 m-2 py-2 border text-white rounded hover:bg-blue-500 bg-blue-100"
+              className="text-sm px-4 m-2 py-2 border text-white rounded hover:bg-blue-500 bg-blue-100 cursor-pointer"
             >
               Save
             </button>

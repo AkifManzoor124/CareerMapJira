@@ -2,8 +2,11 @@ import React from 'react';
 import { Modal, invoke } from '@forge/bridge';
 import SkillGaps from '../../components/SkillGaps/SkillGaps';
 import Card from '../../components/Card/Card';
+import { useOnboarding } from '../OnboardingProvider/OnboardingProvider';
 
 const SkillGapsCard = ({ metrics, setMetrics }) => {
+  const { pauseOnboarding, completeStepManually } = useOnboarding();
+
   const modal = new Modal({
     resource: 'add-goal-modal',
     onClose: async (payload) => {
@@ -14,6 +17,7 @@ const SkillGapsCard = ({ metrics, setMetrics }) => {
       payload.id = Date.now().toString();
       const newMetric = await invoke('add-metric', payload);
       setMetrics((prev) => [...prev, payload]);
+      completeStepManually(1);
     },
     size: 'medium',
     context: {
@@ -30,8 +34,9 @@ const SkillGapsCard = ({ metrics, setMetrics }) => {
           <p className="text-sm text-gray-500">Expand your skills, and fill gaps by tracking your progress.</p>
         </div>
         <button
-          onClick={() => modal.open()}
-          className="flex justify-end text-sm px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50"
+          data-tour="add-metric"
+          onClick={() => {modal.open(); pauseOnboarding()}}
+          className="flex justify-end text-sm px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 cursor-pointer"
         >
           + Add Topic
         </button>

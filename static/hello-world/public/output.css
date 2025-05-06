@@ -339,6 +339,9 @@
   .flex-wrap {
     flex-wrap: wrap;
   }
+  .cursor-pointer {
+    cursor: pointer;
+  }
   .gap-2 {
     gap: calc(var(--spacing) * 2);
   }
